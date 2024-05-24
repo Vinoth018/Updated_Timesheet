@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Employee Time Sheet</title>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+      <style>
+          body, html {
+              height: 100%; 
+              margin: 0;
+              padding: 0;
+              overflow-x: hidden; /* Prevent horizontal scrollbar when sidebar is open */
+          }
+          .sidebar {
+              height: 100%;
+              width: 250px;
+              position: fixed;
+              z-index: 1;
+              top: 0;
+              left: 0;
+              background-color: #343a40; 
+              padding-top: 80px;
+              color: white;
+              transition: all 0.3s ease;
+          }
+          .sidebar a {
+              padding: 10px 8px;
+              text-decoration: none;
+              font-size: 16px;
+              color: white;
+              display: block;
+          }
+          .sidebar a:hover {
+              color: #dee2e6;
+          }
+          .content {
+              padding: 20px;
+              margin-left: 0; /* Initial position of main content */
+              transition: margin-left 0.3s ease; /* Smooth transition for margin */
+          }
+          .form-container {
+              background-color: #f8f9fa; 
+              border-radius: 8px;
+              padding: 20px;
+              box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+          }
+          table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+          }
+          th, td {
+              border: 1px solid #ccc;
+              padding: 8px;
+              text-align: center;
+              font-size: 14px;
+          }
+          th {
+              background-color: #007bff;
+              color: #fff;
+          }
+          tr:nth-child(even) {
+              background-color: #f2f2f2;
+          }
+          .btn-primary {
+              background-color: #007bff;
+              border: none;
+          }
+          .btn-primary:hover {
+              background-color: #0056b3; 
+          }
+          .hidden {
+              transform: translateX(-250px); 
+          }
+          .toggle-btn {
+              position: fixed;
+              top: 34px;
+              left: 20px;
+              z-index: 999;
+              cursor: pointer;
+              background-color: #343a40;
+              color: #fff;
+              border: none;
+              padding: 10px;
+              border-radius: 60%;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+              transition: all 0.3s ease;
+              display: flex; 
+              align-items: center;
+          }
+          .toggle-btn:hover {
+              background-color: honeydew;
+              color: #343a40;
+              transform: scale(1.1);
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+          }
+          h5{
+              padding-left: 45px;
+              margin-top: -38px;
+              padding-bottom: 20px;
+          }
+          .logout:hover {
+                 background-color: #dc3545;
+             } 
+             .logout{
+              border-radius: 5px;
+             } 
+  
+          /* Smooth transition for main content */
+          .content-transition {
+              transition: margin-left 0.3s ease;
+          }
+  
+          /* Center main content when sidebar is closed */
+          .center-content {
+              margin-left: 250px;
+          }
+      </style>
+  </head>
+  <body>
+  
+  <div class="sidebar hidden" id="sidebar">
+      <h5 style="margin-left: 28px;" class="sidebar_content">Employee Portal</h5>
+      <a style="padding-left: 25px;" href="/profile/">Profile</a>
+      <a style="padding-left: 25px;" class="nav-link logout" href="#" onclick="confirmLogout()">Log Out</a>
+  </div>
+  
+  <div class="content content-transition" id="content">
+      <div class="container">
+          <div class="toggle-btn" onclick="toggleSidebar()">
+                <i class="fa-solid fa-arrow-right"></i>
+          </div>
+          <h1 style="text-align: center;" class="mb-4">Employee Time Sheet</h1>
+          <h3 style="text-align: center; padding-bottom: 10px;">Vinoth</h3>
+  
+          <div class="form-container mb-4">
+              <h2>Task Sheet</h2>
+              <label for="date">Date:</label>
+              <input type="date" id="date" class="form-control mb-2" disabled>
+              <label for="project">Project:</label>
+              <select id="project" class="form-control mb-2">
+                  <option value="Dicom">Dicom</option>
+                  <option value="Revcord">Revcord</option>
+                  <option value="Testrunz">Testrunz</option>
+                  <option value="Brodcam">Brodcam</option>
+              </select>
+              <label for="taskDescription">Task Description:</label>
+              <textarea id="taskDescription" class="form-control mb-2"></textarea>
+              <div class="form-row">
+                  <div class="col">
+                      <label for="startTime">Start Time:</label>
+                      <input type="time" id="startTime" class="form-control mb-2">
+                  </div>
+                  <div class="col">
+                      <label for="endTime">End Time:</label>
+                      <input type="time" id="endTime" class="form-control mb-2">
+                  </div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="addTimeSheetEntry()">Add Entry</button>
+          </div>
+  
+          <div class="table-responsive">
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th>Date</th>
+                      <th>Project</th>
+                      <th>Task Description</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Total Hours</th>
+                  </tr>
+                  </thead>
+                  <tbody id="timeSheetEntries">
+                  </tbody>
+              </table>
+          </div>
+          <div class="mt-4">
+              <h3>Summary</h3>
+              <p>Total Hours Worked: <span id="totalHoursWorked">0</span> Hours. </p>
+          </div>
+      </div>
+  </div>
+  
+  <script>
+    function setCurrentDate() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').value = today;
+    }
+    window.onload = setCurrentDate;
+
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('hidden');
+        var content = document.getElementById('content');
+        content.classList.toggle('center-content'); // Toggle centering of main content
+    }
+    function addTimeSheetEntry() {
+        var employeeName = "John Doe";
+        var date = document.getElementById('date').value;
+        var project = document.getElementById('project').value;
+        var taskDescription = document.getElementById('taskDescription').value;
+        var startTime = document.getElementById('startTime').value;
+        var endTime = document.getElementById('endTime').value;
+        var totalHours = calculateTotalHours(startTime, endTime);
+        var tableBody = document.getElementById('timeSheetEntries');
+        var newRow = tableBody.insertRow();
+        var cells = [date, project, taskDescription, startTime, endTime, totalHours];
+        cells.forEach(function(cellData) {
+            var cell = newRow.insertCell();
+            cell.textContent = cellData;
+        });
+        updateSummary();
+    }
+
+    function calculateTotalHours(startTime, endTime) {
+        var start = new Date("2000-01-01T" + startTime + ":00");
+        var end = new Date("2000-01-01T" + endTime + ":00");
+        var diff = Math.abs(end - start);
+        var hours = Math.floor(diff / 3600000);
+        var minutes = Math.floor((diff % 3600000) /60000);
+        return hours + minutes / 60;
+    }
+
+    function updateSummary() {
+        var totalHours = 0;
+        var rows = document.getElementById('timeSheetEntries').rows;
+        for (var i = 0; i < rows.length; i++) {
+            var totalHoursCell = rows[i].cells[5]; 
+            totalHours += parseFloat(totalHoursCell.textContent);
+        }
+        document.getElementById('totalHoursWorked').textContent = totalHours.toFixed(2);
+    }
+    function confirmLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+            logout();
+        }
+    }
+    function logout() {
+        window.location.href= '/signin/'; 
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Selection</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .role-btn {
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 60%;
+      padding: 20px 0px;
+    }
+    .role-btn:hover {
+      transform: translateY(-5px);
+    }
+    .role-btn:focus {
+      outline: none;
+    }
+    .role-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      {% if role == 'employee' %}
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block role-btn" onclick="redirectToDashboard()">
+          <i class="fas fa-user role-icon"></i>
+          <h5 class="mb-0">Employee</h5>
+        </button>
+      </div>
+      {% else %}
+      <div class="col-md-4">
+        <button class="btn btn-primary btn-lg btn-block role-btn" disabled>
+          <i class="fas fa-user role-icon"></i>
+          <h5 class="mb-0">Employee</h5>
+        </button>
+      </div>
+      {% endif %}
+      {% if role == 'team_leader' %}
+      <div class="col-md-4">
+        <button class="btn btn-success btn-lg btn-block role-btn" onclick="redirectToTeamLeader()">
+          <i class="fas fa-users role-icon"></i>
+          <h5 class="mb-0">Team Leader (TL)</h5>
+        </button>
+      </div>
+      {% else %}
+      <div class="col-md-4">
+        <button class="btn btn-success btn-lg btn-block role-btn" disabled>
+          <i class="fas fa-users role-icon"></i>
+          <h5 class="mb-0">Team Leader (TL)</h5>
+        </button>
+      </div>
+      {% endif %}
+      {% if role == 'management' %}
+      <div class="col-md-4">
+        <button class="btn btn-danger btn-lg btn-block role-btn" onclick="redirectToManagement()">
+          <i class="fas fa-building role-icon"></i>
+          <h5 class="mb-0">Management</h5>
+        </button>
+      </div>
+      {% else %}
+      <div class="col-md-4">
+        <button class="btn btn-danger btn-lg btn-block role-btn" disabled>
+          <i class="fas fa-building role-icon"></i>
+          <h5 class="mb-0">Management</h5>
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </div> 
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script>
+    function redirectToDashboard() {
+        window.location.href = '/dashboard'; 
+    }
+    function redirectToTeamLeader() {
+        window.location.href = '/teamleader'; 
+    }
+    function redirectToManagement() {
+        window.location.href = '/management'; 
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .logout {
+            margin-top: 2%;
+            color: #fff; 
+            border-radius: 5px;
+            border: transparent;
+            cursor: pointer;
+            padding: 6px 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 20%; color: indianred;">Management page..!!</h1>
+    <div class="text-center">
+<button class="logout btn-lg btn-danger" onclick="logout()">Log Out</button>
+    </div>
+<script>
+function logout() {
+window.location.href = '/signin';
+}
+</script>
+</body>
+</html>
